@@ -1,0 +1,26 @@
+app:
+  name: telegram-video-bot
+  services:
+    - name: telegram-bot
+      type: web
+      port: 8080
+      env:
+        - name: BOT_TOKEN
+          value: "{{.BOT_TOKEN}}"
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        - name: TZ
+          value: "UTC"
+      scalings:
+        min: 1
+        max: 2
+      resources:
+        machine:
+          type: nano
+      docker:
+        image: koyeb/telegram-video-bot
+      healthcheck:
+        port: 8080
+        path: /health
+        interval: 30
+        timeout: 10
